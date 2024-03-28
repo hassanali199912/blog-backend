@@ -27,6 +27,27 @@ app.use("/users", usersRouter);
 const postUserRouter = require("./routers/posts/user_posts");
 app.use("/admin/post", postUserRouter);
 
+/*====================== Test =================== */
+app.use("/api/test", (req, res, next) => {
+  try {
+    res.status(200).json({
+      status: "success",
+      message: "Test is running 🎉🎉🎉🎉🎉🎉",
+      data: {
+        name: "Hassan Ali",
+        email: "hassanalihassan1203@gmail.com",
+        phone: "01553880080",
+      },
+      user_meggage: "Witting to work together some day ❤😊 ",
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+});
+
 /*====================== Error Routers =================== */
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
