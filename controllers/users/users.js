@@ -122,7 +122,7 @@ const getUser = async (req, res, next) => {
 const updateUser = async (req, res, next) => {
   try {
     const { feild, value } = req.body;
-    const user = await User.findById(req.userId).select("-password");
+    const user = await User.findById(req.userId);
     if (!user) {
       HelperClass.throwError(404, "Data not found");
     }
@@ -136,8 +136,8 @@ const updateUser = async (req, res, next) => {
         user.$set({ image: value });
       } else if (feild === "password") {
         const isPasswordCorrect = await bcrypt.compare(
-          value.old,
-          user.password
+          user.password,
+          value.old
         );
         if (!isPasswordCorrect) {
           HelperClass.throwError(401, "Invalid credentials");
