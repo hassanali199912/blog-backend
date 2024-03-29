@@ -121,29 +121,33 @@ const getUser = async (req, res, next) => {
 };
 const updateUser = async (req, res, next) => {
   try {
-    HelperClass.checkForValidationResult(req);
     const { feild, value } = req.body;
-    console.log(feild, value);
     const user = await User.findById(req.userId).select("-password");
     if (!user) {
       HelperClass.throwError(404, "Data not found");
     }
 
-    if (feild === "name") {
-      user.$set({ name: value });
-    } else if (feild === "image") {
-      user.$set({ image: value });
-    } else if (feild === "password") {
-      const isPasswordCorrect = await bcrypt.compare(value.old, user.password);
-      if (!isPasswordCorrect) {
-        HelperClass.throwError(401, "Invalid credentials");
-      }
-
-      const hashPassword = await bcrypt.hash(value.new, 12);
-      user.$set({ password: hashPassword });
-    } else {
+    if (!value || value === "" || value == {}){
       HelperClass.throwError(404, "Data not found");
     }
+      if (feild === "name") {
+        user.$set({ name: value });
+      } else if (feild === "image") {
+        user.$set({ image: value });
+      } else if (feild === "password") {
+        const isPasswordCorrect = await bcrypt.compare(
+          value.old,
+          user.password
+        );
+        if (!isPasswordCorrect) {
+          HelperClass.throwError(401, "Invalid credentials");
+        }
+
+        const hashPassword = await bcrypt.hash(value.new, 12);
+        user.$set({ password: hashPassword });
+      } else {
+        HelperClass.throwError(404, "Data not found");
+      }
 
     await user.save();
     res.status(200).json({
