@@ -121,6 +121,7 @@ const getUser = async (req, res, next) => {
 };
 const updateUser = async (req, res, next) => {
   try {
+    HelperClass.checkForValidationResult(req);
     const { feild, value } = req.body;
     console.log(feild, value);
     const user = await User.findById(req.userId).select("-password");
