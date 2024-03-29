@@ -24,8 +24,10 @@ const usersRouter = require("./routers/users/users");
 app.use("/users", usersRouter);
 
 /*====================== Post Routers =================== */
-const postUserRouter = require("./routers/posts/user_posts");
-app.use("/admin/post", postUserRouter);
+const postAdminRouter = require("./routers/posts/user_posts");
+const postUserRouter = require("./routers/posts/posts");
+app.use("/admin/post", postAdminRouter);
+app.use("/post", postUserRouter);
 
 /*====================== Test =================== */
 app.use("/api/test", (req, res, next) => {

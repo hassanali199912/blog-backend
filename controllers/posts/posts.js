@@ -3,6 +3,7 @@ const Helper = require("../../util/helper");
 const User = require("../../models/users");
 const Post = require("../../models/post");
 
+// Admin Controllers
 const create = async (req, res, next) => {
   try {
     Helper.checkForValidationResult(req);
@@ -92,8 +93,59 @@ const deleted = async (req, res, next) => {
   }
 };
 
+//User Controllers
+
+const getAll = async (req, res, next) => {
+  try {
+    const posts = await Post.find({}).populate({
+      path: "auther",
+      select: "name email image -_id",
+    });
+    if (!posts) {
+      Helper.throwError(404, "Data not found");
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Posts fetched successfully",
+      data: posts,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
+const getById = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.postId).populate({
+      path: "auther",
+      select: "name email image -_id",
+    });
+    if (!post) {
+      Helper.throwError(404, "Data not found");
+    }
+
+    res.status(200).json({
+      status: "success",
+      message: "Post fetched successfully",
+      data: post,
+    });
+  } catch (error) {
+    if (!error.statusCode) {
+      error.statusCode = 500;
+    }
+    next(error);
+  }
+};
+
 module.exports = {
   create,
   update,
   deleted,
+  //user functions
+  getAll,
+  getById
 };
