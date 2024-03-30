@@ -35,9 +35,11 @@ const postSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    reviews: {
-      type: Number,
-    },
+    reviews: [
+      {
+        type: Number,
+      },
+    ],
 
     auther: {
       type: mongoose.Schema.Types.ObjectId,
