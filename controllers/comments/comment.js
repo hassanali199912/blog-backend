@@ -23,7 +23,10 @@ const createComment = async (req, res, next) => {
       review: req.body.review,
     });
     await newComment.save();
-    post.$set({ reviews: [...post.reviews, req.body.review] });
+    post.$set({
+      reviews: [...post.reviews, req.body.review],
+      comments: [...post.comments, newComment._id.toString()],
+    });
     await post.save();
 
     res.status(201).json({
