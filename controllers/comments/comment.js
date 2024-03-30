@@ -44,7 +44,7 @@ const getAll = async (req, res, next) => {
     const comments = await Comment.find({ post: req.params.postId })
       .populate({
         path: "user",
-        select: "name email",
+        select: "name email image",
       })
       .sort({ createdAt: -1 });
     res.status(201).json({
