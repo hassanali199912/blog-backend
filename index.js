@@ -8,7 +8,7 @@ const donenv = require("dotenv");
 donenv.config();
 
 const DB =
-  "mongodb+srv://hassanalihassan1203:LTy5FDZmmz19RPwb@blog-project.lagozgm.mongodb.net/blog-project";
+  "mongodb+srv://hassanalihassan1203:xgUm93yfv6hZAWlV@blog-project.lagozgm.mongodb.net/blog-project";
 
 app.use(bodyParser.json());
 app.use(cors());
